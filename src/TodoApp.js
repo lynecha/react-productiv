@@ -17,20 +17,33 @@ import EditableTodoList from "./EditableTodoList";
 
 function TodoApp({initialTodos}) {
 
-  console.log("todoapp", initialTodos)
+  const [todos, setTodos] = useState(initialTodos)
 
   /** add a new todo to list */
   function create(newTodo) {
-    // initialTodos.map(todo => <>)
-
+    const copyTodos = [...todos];
+    const newTodos = copyTodos.push(newTodo)
+    setTodos(newTodos);
   }
 
+// FIXME: update
   /** update a todo with updatedTodo */
   function update(updatedTodo) {
+    //select updated with id
+    //take old state and reassign that todo
+    setTodos(todos => todos.map(t => {
+      if(t.id === updatedTodo.id) {
+          t.title = updatedTodo.title
+          t.description = updatedTodo.description
+          t.priority = updatedTodo.priority
+    }
+    return todos
+  }))
   }
 
   /** delete a todo by id */
   function remove(id) {
+    setTodos(todos => todos.filter(t => t.id !== id));
   }
 
   return (
@@ -38,7 +51,7 @@ function TodoApp({initialTodos}) {
         <div className="row">
 
           <div className="col-md-6">
-            <EditableTodoList todos={initialTodos} update={update} remove={remove}/> OR
+            <EditableTodoList todos={todos} update={update} remove={remove}/> OR
             <span className="text-muted">You have no todos.</span>
           </div>
 
