@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Todo from "./Todo";
 import TodoForm from "./TodoForm";
-import { v4 as uuid } from 'uuid';
+
 
 /** Show editable todo item.
  *
@@ -30,16 +30,21 @@ function EditableTodo({ todo, update, remove }) {
 
   /** Edit form saved; toggle isEditing and update in ancestor. */
   function handleSave(formData) {
-    // const { name, value } = evt.target;
-    // setFormData(fData => ({
-    //   ...fData,
-    //   [name]: value,
-    // }));
+    const { title, description, priority } = formData
+    console.log("am i here")
+    const updatedTodo = {
+      id: todo.id,
+      title,
+      description,
+      priority
+    }
+    console.log("updated todos??",updatedTodo)
+    update(updatedTodo);
+    toggleEdit();
 
   }
 
   function renderTodo() {
-    console.log("asdfsdf")
     return (
       <div className="mb-3">
         <div className="float-end text-sm-end">
@@ -65,7 +70,7 @@ function EditableTodo({ todo, update, remove }) {
   return (
     <div className="EditableTodo">
 
-      {visibility === true ? renderTodo() : <TodoForm />}
+      {visibility === true ? renderTodo() : <TodoForm initialFormData={todo} handleSave={handleSave}/>}
     </div>
   );
 }
